@@ -6,7 +6,11 @@ import postcss from 'gulp-postcss';
 import autoprefixer from 'autoprefixer';
 import pimport from 'postcss-import';
 import cssnano from 'cssnano';
+import webpack from 'webpack-stream';
 
+import webpackConfig from './webpack.config.js';
+
+const ENV = process.env.NODE_ENV || 'development';
 const IS_DEV = process.env.NODE_ENV === 'development';
 const IS_PROD = process.env.NODE_ENV === 'production';
 
@@ -42,9 +46,15 @@ function styles() {
     .pipe(gulp.dest('dist/css', options));
 }
 
+function scripts() {
+  return webpack(webpackConfig(ENV))
+    .pipe(gulp.dest('dist/js'));
+}
+
 function watcher() {
   gulp.watch('source/views/**/*.pug', gulp.series(templates));
   gulp.watch('source/stylesheets/**/*.css', gulp.series(styles));
+  gulp.watch('source/javascripts/**/*.js', gulp.series(scripts));
 }
 
 export const build = gulp.series(
@@ -52,6 +62,7 @@ export const build = gulp.series(
   gulp.parallel(
     templates,
     styles,
+    scripts,
   ),
 );
 

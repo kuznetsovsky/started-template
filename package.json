@@ -11,7 +11,10 @@
     "lint:js": "eslint \"**/*.js\" --fix"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
     "autoprefixer": "^10.4.2",
+    "babel-loader": "^8.2.3",
     "cross-env": "^7.0.3",
     "cssnano": "^5.1.0",
     "del": "^6.0.0",
@@ -25,6 +28,7 @@
     "stylelint": "^13.13.1",
     "stylelint-config-htmlacademy": "^0.1.12",
     "stylelint-config-rational-order": "^0.1.2",
-    "stylelint-order": "^4.1.0"
+    "stylelint-order": "^4.1.0",
+    "webpack-stream": "^7.0.0"
   }
 }
