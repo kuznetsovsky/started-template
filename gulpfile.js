@@ -2,6 +2,13 @@ import gulp from 'gulp';
 import plumber from 'gulp-plumber';
 import pug from 'gulp-pug';
 import del from 'del';
+import postcss from 'gulp-postcss';
+import autoprefixer from 'autoprefixer';
+import pimport from 'postcss-import';
+import cssnano from 'cssnano';
+
+const IS_DEV = process.env.NODE_ENV === 'development';
+const IS_PROD = process.env.NODE_ENV === 'production';
 
 function clean() {
   return del('dist', { force: true });
@@ -14,14 +21,37 @@ function templates() {
     .pipe(gulp.dest('dist'));
 }
 
+function styles() {
+  const options = { sourcemaps: IS_DEV };
+  const plugins = [
+    autoprefixer,
+    pimport,
+  ];
+
+  if (IS_PROD) {
+    plugins.push(
+      cssnano({
+        preset: 'default'
+      }),
+    );
+  }
+
+  return gulp.src('source/stylesheets/styles.css', options)
+    .pipe(plumber())
+    .pipe(postcss(plugins))
+    .pipe(gulp.dest('dist/css', options));
+}
+
 function watcher() {
   gulp.watch('source/views/**/*.pug', gulp.series(templates));
+  gulp.watch('source/stylesheets/**/*.css', gulp.series(styles));
 }
 
 export const build = gulp.series(
   clean,
   gulp.parallel(
     templates,
+    styles,
   ),
 );
 
