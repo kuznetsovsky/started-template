@@ -6,7 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development gulp",
     "build": "cross-env NODE_ENV=production gulp build",
-    "lint": "npm run lint:css && npm run lint:js",
+    "lint": "npm run lint:pug && npm run lint:css && npm run lint:js",
+    "lint:pug": "pug-lint source/**",
     "lint:css": "stylelint \"**/*.css\" --fix",
     "lint:js": "eslint \"**/*.js\" --fix"
   },
@@ -26,6 +27,8 @@
     "gulp-postcss": "^9.0.1",
     "gulp-pug": "^5.0.0",
     "postcss-import": "^14.0.2",
+    "pug-lint": "^2.6.0",
+    "pug-lint-config-clock": "^2.0.0",
     "stylelint": "^13.13.1",
     "stylelint-config-htmlacademy": "^0.1.12",
     "stylelint-config-rational-order": "^0.1.2",

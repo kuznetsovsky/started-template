@@ -1,19 +1,19 @@
 block variables
 
 doctype html
-html(class="page" lang="ru-RU" dir="ltr")
+html.page(lang='ru-RU', dir='ltr')
   head
-    meta(charset="utf-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1")
-    link(rel="stylesheet" href="css/styles.css")
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='css/styles.css')
     title= title
-  body(class="page__body")
+  body.page__body
     h1.sr-only= headline
     .wrapper
-      include ../includes/header
+      include ../includes/header.pug
       block content
-      include ../includes/footer
+      include ../includes/footer.pug
     block modals
     block scripts
-      script(src="js/vendor.js")
-      script(src="js/index.js")
+      script(src='js/vendor.js')
+      script(src='js/index.js')
