@@ -4,10 +4,16 @@
   "private": "true",
   "type": "module",
   "scripts": {
+    "lint": "npm run lint:css && npm run lint:js",
+    "lint:css": "stylelint \"**/*.css\" --fix",
     "lint:js": "eslint \"**/*.js\" --fix"
   },
   "devDependencies": {
     "eslint": "^8.10.0",
-    "eslint-config-htmlacademy": "^5.0.0"
+    "eslint-config-htmlacademy": "^5.0.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-htmlacademy": "^0.1.12",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-order": "^4.1.0"
   }
 }
