@@ -7,6 +7,7 @@ import autoprefixer from 'autoprefixer';
 import pimport from 'postcss-import';
 import cssnano from 'cssnano';
 import webpack from 'webpack-stream';
+import bs from 'browser-sync';
 
 import webpackConfig from './webpack.config.js';
 
@@ -28,7 +29,8 @@ function templates() {
   return gulp.src('source/views/*.pug')
     .pipe(plumber())
     .pipe(pug())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist'))
+    .pipe(bs.stream());
 }
 
 // Styles
@@ -51,14 +53,16 @@ function styles() {
   return gulp.src('source/stylesheets/styles.css', options)
     .pipe(plumber())
     .pipe(postcss(plugins))
-    .pipe(gulp.dest('dist/css', options));
+    .pipe(gulp.dest('dist/css', options))
+    .pipe(bs.stream());
 }
 
 // Scripts
 
 function scripts() {
   return webpack(webpackConfig(ENV))
-    .pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('dist/js'))
+    .pipe(bs.stream());
 }
 
 // Copy
@@ -69,7 +73,8 @@ function copy() {
       base: 'source/assets',
     })
     .pipe(plumber())
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist'))
+    .pipe(bs.stream({ once: true }));
 }
 
 // Watcher
@@ -79,6 +84,19 @@ function watcher() {
   gulp.watch('source/stylesheets/**/*.css', gulp.series(styles));
   gulp.watch('source/javascripts/**/*.js', gulp.series(scripts));
   gulp.watch('source/assets/**/*', gulp.series(copy));
+}
+
+// Server
+
+function server() {
+  bs.init({
+    ui: false,
+    notify: false,
+    server: {
+      baseDir: 'dist',
+      index: 'main.html',
+    },
+  });
 }
 
 // Build
@@ -99,5 +117,6 @@ export default gulp.series(
   build,
   gulp.parallel(
     watcher,
+    server,
   ),
 );
