@@ -1,6 +1,11 @@
 import gulp from 'gulp';
 import plumber from 'gulp-plumber';
 import pug from 'gulp-pug';
+import del from 'del';
+
+function clean() {
+  return del('dist', { force: true });
+}
 
 function templates() {
   return gulp.src('source/views/*.pug')
@@ -14,7 +19,10 @@ function watcher() {
 }
 
 export const build = gulp.series(
-  templates,
+  clean,
+  gulp.parallel(
+    templates,
+  ),
 );
 
 export default gulp.series(
