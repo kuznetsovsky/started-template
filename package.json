@@ -2,5 +2,12 @@
   "name": "started-template",
   "version": "0.1.0",
   "private": "true",
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "lint:js": "eslint \"**/*.js\" --fix"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-htmlacademy": "^5.0.0"
+  }
 }
