@@ -17,6 +17,15 @@ const ENV = process.env.NODE_ENV || 'development';
 const IS_DEV = process.env.NODE_ENV === 'development';
 const IS_PROD = process.env.NODE_ENV === 'production';
 
+// Constants
+
+const FAVICON_FILES = 'source/favicons/**';
+
+const STATIC_FILES = [
+  'source/fonts/**/*',
+  'source/images/**/*',
+];
+
 // Clean
 
 function clean() {
@@ -26,7 +35,7 @@ function clean() {
 // Templates
 
 function templates() {
-  return gulp.src('source/views/*.pug')
+  return gulp.src('source/pages/**/*.pug', { base: 'source/pages' })
     .pipe(plumber())
     .pipe(pug())
     .pipe(gulp.dest('dist'))
@@ -50,10 +59,10 @@ function styles() {
     );
   }
 
-  return gulp.src('source/stylesheets/styles.css', options)
+  return gulp.src('source/styles/styles.css', options)
     .pipe(plumber())
     .pipe(postcss(plugins))
-    .pipe(gulp.dest('dist/css', options))
+    .pipe(gulp.dest('dist/assets/css', options))
     .pipe(bs.stream());
 }
 
@@ -61,17 +70,23 @@ function styles() {
 
 function scripts() {
   return webpack(webpackConfig(ENV))
-    .pipe(gulp.dest('dist/js'))
+    .pipe(gulp.dest('dist/assets/js'))
     .pipe(bs.stream());
 }
 
 // Copy
 
 function copy() {
-  return gulp
-    .src('source/assets/**/*', {
-      base: 'source/assets',
-    })
+  return gulp.src(STATIC_FILES, { base: 'source' })
+    .pipe(plumber())
+    .pipe(gulp.dest('dist/assets'))
+    .pipe(bs.stream({ once: true }));
+}
+
+// Favicons
+
+function favicons() {
+  return gulp.src(FAVICON_FILES, { base: 'source/favicons' })
     .pipe(plumber())
     .pipe(gulp.dest('dist'))
     .pipe(bs.stream({ once: true }));
@@ -80,10 +95,11 @@ function copy() {
 // Watcher
 
 function watcher() {
-  gulp.watch('source/views/**/*.pug', gulp.series(templates));
-  gulp.watch('source/stylesheets/**/*.css', gulp.series(styles));
-  gulp.watch('source/javascripts/**/*.js', gulp.series(scripts));
-  gulp.watch('source/assets/**/*', gulp.series(copy));
+  gulp.watch('source/**/*.pug', gulp.series(templates));
+  gulp.watch('source/styles/**/*.css', gulp.series(styles));
+  gulp.watch('source/scripts/**/*.js', gulp.series(scripts));
+  gulp.watch(STATIC_FILES, gulp.series(copy));
+  gulp.watch(FAVICON_FILES, gulp.series(favicons));
 }
 
 // Server
@@ -94,7 +110,6 @@ function server() {
     notify: false,
     server: {
       baseDir: 'dist',
-      index: 'main.html',
     },
   });
 }
@@ -108,6 +123,7 @@ export const build = gulp.series(
     styles,
     scripts,
     copy,
+    favicons,
   ),
 );
 

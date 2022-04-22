@@ -1,0 +1,15 @@
+.page {
+  min-width: 320px;
+  height: 100%;
+  color: var(--color-dark);
+  font-size: 100%;
+  font-family: sans-serif;
+  line-height: 1.2;
+  background-color: var(--color-light);
+}
+
+.page__body {
+  position: relative;
+  height: inherit;
+  margin: 0;
+}

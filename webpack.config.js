@@ -2,8 +2,8 @@ const getConfig = (mode) => ({
   mode,
   devtool: mode === 'production' ? false : 'inline-source-map',
   entry: {
-    index: './source/javascripts/index.js',
-    vendor: './source/javascripts/vendor.js',
+    index: './source/scripts/index.js',
+    vendor: './source/scripts/vendor.js',
   },
   output: {
     filename: '[name].js',
