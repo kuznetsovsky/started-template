@@ -1,0 +1,10 @@
+extends ../layouts/layout.pug
+
+append variables
+  - var title = "Название сайта"
+  - var currentPage = "index-page"
+  - var isAuthorized = false
+
+block content
+  main(id=currentPage)
+    h2 Тестовая страница

@@ -1,0 +1,24 @@
+block variables
+
+doctype html
+html.page(lang='ru-RU', dir='ltr')
+  head
+    include ../includes/meta.pug
+  body.page__body
+    h1.sr-only Название сайта
+
+    //- Основной блок сайта
+    .wrapper
+      include ../includes/header.pug
+      block content
+      include ../includes/footer.pug
+
+    //- Модальные окна
+    .modal
+      .modal__container
+        block modals
+
+    //- Скрипты
+    block scripts
+      script(src='/assets/js/vendor.js')
+      script(src='/assets/js/index.js')
